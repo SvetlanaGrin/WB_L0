@@ -38,15 +38,14 @@ func (h *Handler) GetOrderId(w http.ResponseWriter, req *http.Request) {
 	if req.Method != http.MethodGet {
 		w.Header().Set("Allow", http.MethodGet)
 
-		http.Error(w, "prohibited method", 405)
+		http.Error(w, "prohibited method", http.StatusMethodNotAllowed)
 
 		return
 	}
 	orderId := chi.URLParam(req, "id")
 	order, err := h.services.GetOrderById(orderId)
 	if err != nil {
-		// FIXME
-		http.Error(w, "id insorrest", 404)
+		http.Error(w, "id insorrest", http.StatusNotFound)
 		return
 	}
 	body, err := json.MarshalIndent(&order, "", "\t")
@@ -56,7 +55,7 @@ func (h *Handler) GetOrderId(w http.ResponseWriter, req *http.Request) {
 	}
 	_, err = w.Write(body)
 	if err != nil {
-		http.Error(w, "error writing", 500)
+		http.Error(w, "error writing", http.StatusInternalServerError)
 		return
 	}
 

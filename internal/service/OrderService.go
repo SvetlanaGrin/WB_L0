@@ -12,8 +12,6 @@ type OrderService struct {
 type Order interface {
 	GetOrderById(orderId string) (models.Order, error)
 	AddOrder(order models.Order) error
-	//UpdatePlus(userid int, input AvitoTest.UserBalance) error
-	//UpdateMinus(userid int, input AvitoTest.UserBalance) error
 }
 
 func NewOrderService(repo repository.Order) *OrderService {
